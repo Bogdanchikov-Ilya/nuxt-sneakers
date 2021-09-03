@@ -11,10 +11,10 @@
         </div>
       </nuxt-link>
       <ul class="d-flex">
-        <li class="mr-30 cu-p">
-          <nuxt-link to="/" @click="openOverlay()">
+        <li class="mr-30 cu-p" @click="$store.commit('overlay/resetShow', true)">
+          <nuxt-link to="/">
             <img width={18} height={18} src="../static/img/cart.svg" alt="Корзина" />
-            <span>1205 руб.</span>
+            <span>{{ totalPrice }} руб.</span>
           </nuxt-link>
         </li>
         <li class="mr-20 cu-p">
@@ -34,12 +34,9 @@
 
 <script>
 export default {
-  props: ['showOverlay'],
-  methods: {
-    openOverlay(){
-      this.showOverlay = true
-      console.log(this.showOverlay)
-      this.$emit('openOverlay', this.showOverlay)
+  computed: {
+    totalPrice() {
+      return this.$store.getters['overlay/getTotalPrice']
     }
   }
 }

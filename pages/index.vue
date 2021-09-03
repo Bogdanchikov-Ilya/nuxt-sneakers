@@ -1,16 +1,19 @@
 <template>
   <div class="home">
-    <cartOverlay :showOverlay="showOverlay" v-if="showOverlay"/>
+    <transition name="fade">
+      <cartOverlay v-if="show"/>
+    </transition>
     <div class="home-wrapper">
-      <headerApp :showOverlay="showOverlay" @openOverlay="this.showOverlay = true"/>
+      <headerApp />
       <div class="content">
         <div class="container">
+          <img src="../static/img/banner.png" width="100%" alt="">
           <div class="content-header">
             <p class="title">Все кроссовки</p>
             <search/>
           </div>
           <div class="cards">
-            <product v-for="item of 14"/>
+            <product v-for="(item, index) in items" :item="item" :index="index"/>
           </div>
         </div>
       </div>
@@ -19,16 +22,30 @@
 </template>
 
 <script>
-import headerApp from "@/components/header-app"
-import search from "@/components/search"
-import product from "@/components/product"
-import cartOverlay from  "@/components/cart-overlay"
-
 export default {
-  computed:{headerApp, search, product},
   data () {
     return {
       showOverlay: true
+    }
+  },
+  computed: {
+    show () {
+      return this.$store.getters['overlay/getShow']
+    },
+    items () {
+      return this.$store.getters['overlay/getItems']
+    }
+  },
+  created() {
+    this.$store.dispatch('overlay/loadItems')
+  },
+  watch: {
+    show: function () {
+      if(this.show == true) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = 'auto';
+      }
     }
   }
 }
@@ -39,7 +56,7 @@ export default {
 
 .home{
   width: 100%;
-  height: 100vw;
+  height: 100%;
   background-color: #e7f6ff;
   padding-top: size(85, 1920);
 }
@@ -52,6 +69,9 @@ export default {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.04);
+  //@media (max-width: 1280px) {
+  //  width: size(1080, 1280);
+  //}
 }
 
 .content{
@@ -59,6 +79,7 @@ export default {
 }
 
 .content-header{
+  margin-top: size(40, 1920);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -71,11 +92,19 @@ export default {
 }
 
 .cards {
-  cursor: pointer;
   padding-top: size(40, 1920);
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+}
+
+// v-if transition
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .2s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  opacity: 0;
 }
 </style>

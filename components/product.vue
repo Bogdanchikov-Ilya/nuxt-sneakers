@@ -1,14 +1,15 @@
 <template>
   <div class="card">
-    <img src="../static/img/productds/image.png" alt="Мужские Кроссовки Nike Blazer Mid Suede">
-    <p class="name">Мужские Кроссовки Nike Blazer Mid Suede</p>
+    <img :src="require(`../static/img/productds/` + item.imageURL)" alt="Мужские Кроссовки Nike Blazer Mid Suede">
+    <p class="name">{{item.title}}</p>
     <div class="card-bottom">
       <div class="price">
         <span class="price-label">ЦЕНА:</span>
-        <span class="summ">12 999 руб</span>
+        <span class="summ">{{item.price}} руб</span>
       </div>
-      <div class="add-button">
-        <img src="../static/img/plus.svg" alt="Добавить в корзину">
+      <div class="add-button" :class="{'in-cart': inCart}" @click="pushProduct(item)">
+        <img src="../static/img/plus.svg" v-if="!inCart" alt="Добавить в корзину">
+        <img src="../static/img/accept.png" v-if="inCart" alt="Добавлено">
       </div>
     </div>
   </div>
@@ -16,7 +17,31 @@
 
 <script>
 export default {
-
+  props: {
+    item: {
+      type: Object,
+      required: true
+    },
+    index: {
+      type: Number,
+      required: true
+    }
+  },
+  data () {
+    return {
+      inCart: false
+    }
+  },
+  methods: {
+    pushProduct(item) {
+      console.log(item)
+      if(this.inCart === false) {
+        this.inCart = true
+        this.$store.commit('overlay/ADD_CART_ITEMS', item)
+        this.$store.commit('overlay/resetShow', true)
+      }
+    }
+  }
 }
 </script>
 
@@ -73,15 +98,21 @@ export default {
     }
 
     .add-button{
+      cursor: pointer;
       padding: size(10, 1920);
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: size(8, 1920);
       border: 1px solid #F2F2F2;
+      transition: .2s ease-in-out;
       img{
         width: size(14, 1920);
         height: size(14, 1920);
+      }
+      &:hover{
+        transition: .2s ease-in-out;
+        border: 1px solid #eeb27c;
       }
     }
   }
@@ -91,5 +122,10 @@ export default {
     border: 1px solid transparent;
     box-shadow: 0px 14px 30px rgba(0,0,0,0.05);
   }
+}
+
+.in-cart{
+  background: rgb(137,240,156);
+  background: linear-gradient(180deg, rgba(137,240,156,1) 0%, rgba(60,199,85,1) 100%);
 }
 </style>
