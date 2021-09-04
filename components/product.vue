@@ -7,9 +7,9 @@
         <span class="price-label">ЦЕНА:</span>
         <span class="summ">{{item.price}} руб</span>
       </div>
-      <div class="add-button" :class="{'in-cart': inCart}" @click="pushProduct(item)">
-        <img src="../static/img/plus.svg" v-if="!inCart" alt="Добавить в корзину">
-        <img src="../static/img/accept.png" v-if="inCart" alt="Добавлено">
+      <div class="add-button" :class="{'in-cart': item.state.inCart}" @click="pushProduct(item, index)">
+        <img src="../static/img/plus.svg" v-if="!item.state.inCart" alt="Добавить в корзину">
+        <img src="../static/img/accept.png" v-if="item.state.inCart" alt="Добавлено">
       </div>
     </div>
   </div>
@@ -33,11 +33,10 @@ export default {
     }
   },
   methods: {
-    pushProduct(item) {
+    pushProduct(item, index) {
       console.log(item)
-      if(this.inCart === false) {
-        this.inCart = true
-        this.$store.commit('overlay/ADD_CART_ITEMS', item)
+      if(item.state.inCart === false) {
+        this.$store.commit('overlay/ADD_CART_ITEMS', index)
         this.$store.commit('overlay/resetShow', true)
       }
     }

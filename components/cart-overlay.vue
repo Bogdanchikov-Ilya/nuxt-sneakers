@@ -16,10 +16,8 @@
           <p class="text">Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.</p>
           <div class="button" @click="$store.commit('overlay/resetShow', false)">🠔 Вернуться назад</div>
         </div>
-        <div class="filled-cart">
-          <div v-for="(item, key) in cartItems">
-            {{item}}
-          </div>
+        <div class="filled-cart" v-if="cartItems.length !== 0">
+          <cartProduct v-for="(item, index) in cartItems" :item="item" :index="index"/>
         </div>
       </div>
     </div>
@@ -27,7 +25,9 @@
 </template>
 
 <script>
+import CartProduct from "~/components/cart-product";
 export default {
+  components: {CartProduct},
   computed: {
     cartItems () {
       return this.$store.getters['overlay/getCartItems']
@@ -143,5 +143,14 @@ body{
       }
     }
   }
+}
+
+.filled-cart{
+  padding-top: size(35, 1920);
+  height: 100%;
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  flex-direction: column;
 }
 </style>

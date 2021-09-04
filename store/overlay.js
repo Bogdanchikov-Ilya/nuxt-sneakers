@@ -1,7 +1,6 @@
 export const state = () => ({
   show: false,
   items: null,
-  cartItems: []
 })
 
 export const mutations = {
@@ -11,10 +10,16 @@ export const mutations = {
   STORE_ITEMS(state, payload) {
     state.items = payload
   },
-  ADD_CART_ITEMS(state, payload) {
-    console.log('set')
-    state.cartItems.push(payload)
-    console.log(state.cartItems.length)
+  ADD_CART_ITEMS(state, index) {
+    state.items[index].state.inCart = true
+    console.log(state.items[index].state.inCart)
+  },
+  REMOVE_PRODUCT(state, index) {
+    console.log('delete' + index)
+    if(state.items) {
+      let arr = state.items.filter(item => item.state.inCart == true)
+      arr[index].state.inCart = false
+    }
   }
 }
 
@@ -33,14 +38,17 @@ export const getters = {
     return state.items
   },
   getCartItems(state) {
-    return state.cartItems
+    return state.items.filter(item => item.state.inCart == true)
   },
   getTotalPrice(state) {
-    let counter = 0
-    state.cartItems.forEach((item) => {
-      counter += item.price
-    })
-    counter.toString()
-    return counter
+    if(state.items) {
+      let counter = 0
+      let arr = state.items.filter(item => item.state.inCart == true)
+      arr.forEach((item) => {
+        counter += item.price
+      })
+      counter.toString()
+      return counter
+    }
   }
 }

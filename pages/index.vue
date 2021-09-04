@@ -43,7 +43,9 @@ export default {
     show: function () {
       if(this.show == true) {
         document.body.style.overflow = 'hidden';
+        document.body.style.paddingRight = "17px"
       } else {
+        document.body.style.paddingRight = "0px"
         document.body.style.overflow = 'auto';
       }
     }
@@ -56,7 +58,7 @@ export default {
 
 .home{
   width: 100%;
-  height: 100%;
+  height: 100vw;
   background-color: #e7f6ff;
   padding-top: size(85, 1920);
 }
