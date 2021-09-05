@@ -4,7 +4,7 @@
     <div class="text">
       <p class="name">{{item.title}}</p>
       <div class="price">
-        <span class="summ">{{item.price}} руб</span>
+        <span class="summ">{{priceFormat(item.price)}} руб</span>
       </div>
     </div>
     <div class="delete-button" @click="removeProduct(index)">

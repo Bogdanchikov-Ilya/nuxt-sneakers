@@ -14,7 +14,7 @@
         <li class="mr-30 cu-p" @click="$store.commit('overlay/resetShow', true)">
           <nuxt-link to="/">
             <img width={18} height={18} src="../static/img/cart.svg" alt="Корзина" />
-            <span>{{ totalPrice }} руб.</span>
+            <span>{{priceFormat(totalPrice)}} руб.</span>
           </nuxt-link>
         </li>
         <li class="mr-20 cu-p">
@@ -23,7 +23,7 @@
           </nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/orders">
+          <nuxt-link to="/profile">
             <img width={18} height={18} src="../static/img/user.svg" alt="Пользователь" />
           </nuxt-link>
         </li>
@@ -34,9 +34,17 @@
 
 <script>
 export default {
+
   computed: {
     totalPrice() {
       return this.$store.getters['overlay/getTotalPrice']
+    },
+    method: {
+      formatFromHeader: (price) => {
+        if(this.priceFormat(Math.round(Number(this.totalPrice) + Number(this.totalPrice) * 5 / 100)) != null){
+          return "0"
+        }
+      }
     }
   }
 }

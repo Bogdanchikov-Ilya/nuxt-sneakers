@@ -1,12 +1,22 @@
 <template>
   <div class="search">
-    <input type="text" placeholder="Поиск...">
+    <input type="text" placeholder="Поиск..." v-model="search">
   </div>
 </template>
 
 <script>
 export default {
-
+  props: ['value'],
+  data () {
+    return {
+      search: this.value
+    }
+  },
+  watch: {
+    search(val) {
+      this.$emit('search', val);
+    },
+  }
 }
 </script>
 

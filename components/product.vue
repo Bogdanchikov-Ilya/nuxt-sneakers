@@ -5,7 +5,7 @@
     <div class="card-bottom">
       <div class="price">
         <span class="price-label">ЦЕНА:</span>
-        <span class="summ">{{item.price}} руб</span>
+        <span class="summ">{{priceFormat(item.price)}} руб</span>
       </div>
       <div class="add-button" :class="{'in-cart': item.state.inCart}" @click="pushProduct(item, index)">
         <img src="../static/img/plus.svg" v-if="!item.state.inCart" alt="Добавить в корзину">

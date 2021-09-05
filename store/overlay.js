@@ -47,8 +47,7 @@ export const getters = {
       arr.forEach((item) => {
         counter += item.price
       })
-      counter.toString()
-      return counter
+      return counter.toString()
     }
   }
 }

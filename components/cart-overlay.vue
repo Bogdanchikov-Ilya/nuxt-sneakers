@@ -16,8 +16,29 @@
           <p class="text">Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.</p>
           <div class="button" @click="$store.commit('overlay/resetShow', false)">🠔 Вернуться назад</div>
         </div>
-        <div class="filled-cart" v-if="cartItems.length !== 0">
-          <cartProduct v-for="(item, index) in cartItems" :item="item" :index="index"/>
+        <div class="filled-cart" v-if="cartItems.length !== 0 && !checkout">
+          <div class="cart-items">
+            <cartProduct v-for="(item, index) in cartItems" :item="item" :index="index"/>
+          </div>
+          <div class="order-info">
+            <div class="no-tax">
+              <span>Итого:</span>
+              <div class="dot"></div>
+              <span class="summ">{{ priceFormat(Math.round(Number(totalPrice) + Number(totalPrice) * 5 / 100)) }} руб.</span>
+            </div>
+            <div class="tax">
+              <span>Налог 5%:</span>
+              <div class="dot"></div>
+              <span class="summ">{{ Math.round(Number((totalPrice) * 5) / 100) }} руб.</span>
+            </div>
+            <div class="button" @click="checkout = true">Оформить заказ →</div>
+          </div>
+        </div>
+        <div class="checkout"v-if="checkout">
+          <img src="../static/img/checkout.png" alt="box">
+          <p class="title">Заказ оформлен!</p>
+          <p class="text">Ваш заказ #18 скоро будет передан курьерской доставке</p>
+          <div class="button" @click="reload()">🠔 Вернуться назад</div>
         </div>
       </div>
     </div>
@@ -28,9 +49,24 @@
 import CartProduct from "~/components/cart-product";
 export default {
   components: {CartProduct},
+  data () {
+    return {
+      checkout: false
+    }
+  },
   computed: {
     cartItems () {
       return this.$store.getters['overlay/getCartItems']
+    },
+    totalPrice() {
+      return this.$store.getters['overlay/getTotalPrice']
+    },
+  },
+  methods: {
+    reload() {
+      window.location.reload()
+
+
     }
   }
 }
@@ -122,35 +158,112 @@ body{
       opacity: 0.4;
       margin-top: size(10, 1920);
     }
-    .button{
-      cursor: pointer;
-      margin-top: size(40, 1920);
-      background-color: #9DD458;
-      border-radius: size(18, 1920);
-      font-weight: 600;
-      font-size: size(16, 1920);
-      line-height: size(19, 1920);
-      padding: size(20, 1920);
-      text-align: center;
-      color: #FFFFFF;
-      transition: .1s ease-in;
-      &:hover{
-        transition: .1s ease-in;
-        background-color: #b5e05f;
-      }
-      &:active{
-        background-color: #c4e79b;
-      }
-    }
+  }
+}
+
+.order-info{
+  width: 100%;
+  align-self: stretch;
+}
+
+.no-tax, .tax{
+  display: flex;
+  justify-content: space-between;
+  font-weight: normal;
+  font-size: size(16, 1920);
+  line-height: size(19, 1920);
+  color: #000000;
+  margin-bottom: size(19, 1920);
+  .summ{
+    font-style: normal;
+    font-weight: 600;
+    font-size: size(16, 1920);
+    line-height: size(19, 1920);
+    color: #000000;
+  }
+  .dot{
+    -webkit-flex: 1 1;
+    flex: 1 1;
+    height: 1px;
+    border-bottom: 1px dashed #dfdfdf;
+    position: relative;
+    top: size(11, 1920);
+    margin: 0 7px;
+  }
+}
+
+.checkout{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  img{
+    width: size(83, 1920);
+  }
+  .title{
+    font-style: normal;
+    font-weight: 600;
+    font-size: size(22, 1920);
+    line-height: size(27, 1920);
+    color: #87C20A;
+    margin-top: size(20, 1920);
+  }
+  .text{
+    font-weight: normal;
+    font-size: size(16, 1920);
+    line-height: size(24, 1920);
+    text-align: center;
+    color: #000000;
+    opacity: 0.4;
+    margin-top: size(10, 1920);
+  }
+}
+
+.cart-items{
+  overflow-y: auto;
+  max-height: size(765, 1920);
+  &::-webkit-scrollbar {
+    position: absolute;
+    width: 3px;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    position: absolute !important;
+    left: 0 !important;
+    padding-right: - size(30, 1920) !important;
+    width: 3px;
+    background-color: #dbdbdb;
+  }
+}
+
+.button{
+  width: 100%;
+  cursor: pointer;
+  margin-top: size(40, 1920);
+  background-color: #9DD458;
+  border-radius: size(18, 1920);
+  font-weight: 600;
+  font-size: size(16, 1920);
+  line-height: size(19, 1920);
+  padding: size(20, 1920);
+  text-align: center;
+  color: #FFFFFF;
+  transition: .1s ease-in;
+  &:hover{
+    transition: .1s ease-in;
+    background-color: #b5e05f;
+  }
+  &:active{
+    background-color: #c4e79b;
   }
 }
 
 .filled-cart{
   padding-top: size(35, 1920);
+  padding-bottom: size(35, 1920);
   height: 100%;
   display: flex;
   align-items: start;
-  justify-content: start;
+  justify-content: space-between;
   flex-direction: column;
 }
 </style>

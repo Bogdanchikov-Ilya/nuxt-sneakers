@@ -7,13 +7,8 @@
       <headerApp />
       <div class="content">
         <div class="container">
-          <img src="../static/img/banner.png" width="100%" alt="">
           <div class="content-header">
-            <p class="title">Все кроссовки</p>
-            <search :value="search" @search="search = $event"/>
-          </div>
-          <div class="cards">
-            <product v-for="(item, index) in productFilter" :item="item" :index="index"/>
+            <p class="title">Мои покупки</p>
           </div>
         </div>
       </div>
@@ -94,11 +89,11 @@ export default {
 }
 
 .content{
-  padding-top: size(45, 1920);
+  padding-top: size(15, 1920);
 }
 
 .content-header{
-  margin-top: size(40, 1920);
+  margin-top: size(30, 1920);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -110,13 +105,7 @@ export default {
   }
 }
 
-.cards {
-  padding-top: size(40, 1920);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-}
+
 
 // v-if transition
 
