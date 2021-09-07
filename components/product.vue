@@ -1,5 +1,9 @@
 <template>
   <div class="card">
+    <div class="desired">
+      <img src="../static/img/like.svg" alt="Добавить в желаемое" v-if="!item.state.inDesired" @click="pushToDesired(item, index)">
+      <img src="../static/img/like-active.svg" alt="Добавить в желаемое" v-if="item.state.inDesired">
+    </div>
     <img :src="require(`../static/img/productds/` + item.imageURL)" alt="Мужские Кроссовки Nike Blazer Mid Suede">
     <p class="name">{{item.title}}</p>
     <div class="card-bottom">
@@ -39,6 +43,11 @@ export default {
         this.$store.commit('overlay/ADD_CART_ITEMS', index)
         this.$store.commit('overlay/resetShow', true)
       }
+    },
+    pushToDesired(item, index) {
+      if(item.state.inDesired === false) {
+        this.$store.commit('overlay/PUSH_TO_DESIRED', index)
+      }
     }
   }
 }
@@ -48,6 +57,7 @@ export default {
 @import "../assets/scss/functions";
 
 .card{
+  position: relative;
   transition: .2s ease-in-out;
   display: flex;
   flex-direction: column;
@@ -126,5 +136,26 @@ export default {
 .in-cart{
   background: rgb(137,240,156);
   background: linear-gradient(180deg, rgba(137,240,156,1) 0%, rgba(60,199,85,1) 100%);
+}
+
+.desired{
+  position: absolute;
+  top: size(20, 1920);
+  left: size(20, 1920);
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: size(8, 1920);
+  transition: .2s ease-in-out;
+  img{
+    width: size(34, 1920) !important;
+    height: size(34, 1920) !important;
+  }
+  &:hover{
+    transition: .2s ease-in-out;
+    border: 1px solid #eeb27c;
+  }
 }
 </style>

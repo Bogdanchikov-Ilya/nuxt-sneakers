@@ -20,6 +20,12 @@ export const mutations = {
       let arr = state.items.filter(item => item.state.inCart == true)
       arr[index].state.inCart = false
     }
+  },
+  PUSH_TO_DESIRED(state, index) {
+    if(state.items) {
+      state.items[index].state.inDesired = true
+      console.log(state.items[index].state.inDesired)
+    }
   }
 }
 
