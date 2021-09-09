@@ -10,6 +10,9 @@
           <div class="content-header">
             <p class="title">Мои закладки</p>
           </div>
+          <div class="content">
+            <Product v-for="(item, index) in items" :item="item" :index="index"/>
+          </div>
         </div>
       </div>
     </div>
@@ -17,11 +20,14 @@
 </template>
 
 <script>
+import Product from "~/components/product";
 export default {
+  components: {Product},
   data () {
     return {
       showOverlay: true,
-      search: ''
+      arr: null,
+      indexArr: null
     }
   },
   computed: {
@@ -29,27 +35,13 @@ export default {
       return this.$store.getters['overlay/getShow']
     },
     items () {
-      return this.$store.getters['overlay/getItems']
+      return this.$store.getters['overlay/getDesiredItems']
     },
 
-    productFilter () {
-      let array = this.items,
-        search = this.search
-      if (!search) return array
-      // Small
-      search = search.trim().toLowerCase()
-      // Filter
-      array = array.filter(function (item) {
-        if (item.title.toLowerCase().indexOf(search) !== -1) {
-          return item
-        }
-      })
-      // Error
-      return array
-    }
+
   },
   created() {
-    this.$store.dispatch('overlay/loadItems')
+    this.indexArr = JSON.parse(localStorage.getItem('desired'))
   },
   watch: {
     show: function () {
@@ -103,6 +95,11 @@ export default {
     line-height: size(39, 1920);
     color: #000000;
   }
+}
+
+.content{
+  display: flex;
+  justify-content: space-between;
 }
 
 

@@ -1,6 +1,7 @@
 export const state = () => ({
   show: false,
   items: null,
+  indexArr: []
 })
 
 export const mutations = {
@@ -24,7 +25,9 @@ export const mutations = {
   PUSH_TO_DESIRED(state, index) {
     if(state.items) {
       state.items[index].state.inDesired = true
-      console.log(state.items[index].state.inDesired)
+      localStorage.setItem('desired', state.items)
+      state.indexArr.push(index)
+      localStorage.setItem('desired', JSON.stringify(state.indexArr))
     }
   }
 }
@@ -45,6 +48,14 @@ export const getters = {
   },
   getCartItems(state) {
     return state.items.filter(item => item.state.inCart == true)
+  },
+  getDesiredItems (state) {
+    let arr = []
+    for (let i = 0; i < state.indexArr.length; i++) {
+      console.log(state.items[state.indexArr[i]])
+      arr.push(state.items[state.indexArr[i]])
+    }
+    return arr
   },
   getTotalPrice(state) {
     if(state.items) {

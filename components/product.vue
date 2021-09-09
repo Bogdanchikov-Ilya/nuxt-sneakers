@@ -2,7 +2,7 @@
   <div class="card">
     <div class="desired">
       <img src="../static/img/like.svg" alt="Добавить в желаемое" v-if="!item.state.inDesired" @click="pushToDesired(item, index)">
-      <img src="../static/img/like-active.svg" alt="Добавить в желаемое" v-if="item.state.inDesired">
+      <img src="../static/img/like-active.svg" alt="Добавить в желаемое" v-if="item.state.inDesired" @click="deleteFromDesired(item, index)">
     </div>
     <img :src="require(`../static/img/productds/` + item.imageURL)" alt="Мужские Кроссовки Nike Blazer Mid Suede">
     <p class="name">{{item.title}}</p>
@@ -24,11 +24,11 @@ export default {
   props: {
     item: {
       type: Object,
-      required: true
+
     },
     index: {
       type: Number,
-      required: true
+
     }
   },
   data () {
@@ -48,6 +48,9 @@ export default {
       if(item.state.inDesired === false) {
         this.$store.commit('overlay/PUSH_TO_DESIRED', index)
       }
+    },
+    deleteFromDesired(item, index) {
+      console.log('delete item - ' + item + ' index' + index)
     }
   }
 }
