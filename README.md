@@ -1,6 +1,8 @@
-# nuxtsneakers
+# Интернет магазин кросовок на Nuxt js (в работе)
 
-## Build Setup
+#### Использовал Nuxt js, глобальное хранилище VueX store. Данные приходят по АПИ, которое настроено с помощию сервиса mockAPI
+
+## Установка
 
 ```bash
 # install dependencies
@@ -16,5 +18,3 @@ $ npm run start
 # generate static project
 $ npm run generate
 ```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
