@@ -1,5 +1,6 @@
 <template>
   <div class="overlay">
+    <div class="blocker" @click="$store.commit('overlay/resetShow', false)"></div>
     <div class="drawer">
       <div class="overlay-header">
         <p class="title">Корзина</p>
@@ -65,8 +66,9 @@ export default {
   methods: {
     reload() {
       window.location.reload()
-
-
+    },
+    checkPlace(e){
+      console.log(this)
     }
   }
 }
@@ -89,6 +91,15 @@ body{
   z-index: 1;
 }
 
+.blocker{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
 .drawer{
   position: absolute;
   width: size(400, 1920);
@@ -97,6 +108,7 @@ body{
   background-color: white;
   box-shadow: -10px 4px 24px rgba(0,0,0, 0.1);
   padding: size(40, 1920);
+  z-index: 999;
 }
 
 .overlay-header{
